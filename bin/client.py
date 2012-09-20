@@ -22,7 +22,7 @@ def subscriber(connection):
     """Receives messages and prints it."""
     socket = context.socket(zmq.SUB)
     socket.connect(connection)
-    socket.setsockopt(zmq.SUBSCRIBE, '')
+    socket.setsockopt(zmq.SUBSCRIBE, '')  # Don't filter subscription
     while True:
         data = json.loads(socket.recv())
         print "%s: %s" % (data['alias'], data['message'])
