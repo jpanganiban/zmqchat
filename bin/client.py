@@ -12,6 +12,11 @@ import json
 context = zmq.Context()
 
 
+def bold(text):
+    """Make text bold"""
+    return u'\033[1m%s\033[0m' % text
+
+
 def input(msg):
     """Non-blocking raw_input."""
     sys.stdout.write("%s" % msg)
@@ -28,7 +33,7 @@ def subscriber(connection, sender_id):
         data = json.loads(socket.recv())
         # Only print if it's not yourself.
         if data['sender_id'] != sender_id:
-            sys.stdout.write("%s: %s" % (data['alias'], data['message']))
+            sys.stdout.write("%s: %s" % (bold(data['alias']), data['message']))
         gevent.sleep(0)
 
 
