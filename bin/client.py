@@ -2,6 +2,7 @@
 
 from gevent import monkey; monkey.patch_all()
 from gevent_zeromq import zmq
+import uuid
 import select
 import sys
 import gevent
@@ -18,24 +19,30 @@ def input(msg):
     return sys.stdin.readline()
 
 
-def subscriber(connection):
+def subscriber(connection, sender_id):
     """Receives messages and prints it."""
     socket = context.socket(zmq.SUB)
     socket.connect(connection)
     socket.setsockopt(zmq.SUBSCRIBE, '')  # Don't filter subscription
     while True:
         data = json.loads(socket.recv())
-        print "%s: %s" % (data['alias'], data['message'])
+        # Only print if it's not yourself.
+        if data['sender_id'] != sender_id:
+            print "%s: %s" % (data['alias'], data['message'])
         gevent.sleep(0)
 
 
-def sender(connection, alias):
+def sender(connection, alias, sender_id):
     """Takes user input and sends message to server."""
     socket = context.socket(zmq.REQ)
     socket.connect(connection)
     while True:
         message = input("")
-        socket.send(json.dumps({'alias': alias, 'message': message}))
+        socket.send(json.dumps({
+            'alias': alias,
+            'message': message,
+            'sender_id': sender_id,
+        }))
         msg_in = socket.recv()
         gevent.sleep(0)
 
@@ -45,6 +52,8 @@ if __name__ == '__main__':
     alias = raw_input("Enter your chat alias: ")
     sender_connection = "tcp://0.0.0.0:%s" % (port)
     subscriber_connection = "tcp://0.0.0.0:%s" % (int(port) + 1)
-    sender = gevent.spawn(sender, sender_connection, alias)
-    subscriber = gevent.spawn(subscriber, subscriber_connection)
+    # Generate a sender_id
+    sender_id = uuid.uuid4().hex
+    sender = gevent.spawn(sender, sender_connection, alias, sender_id)
+    subscriber = gevent.spawn(subscriber, subscriber_connection, sender_id)
     gevent.joinall([subscriber, sender])
