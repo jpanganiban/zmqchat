@@ -3,6 +3,8 @@ ZMQCHAT
 
 A simple chat demonstration with ZeroMQ.
 
+ZeroMQ: http://www.zeromq.org/
+
 
 ##Installation
 
