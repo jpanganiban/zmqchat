@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 
 import zmq
-import json
 
 
 context = zmq.Context()
 
 
 def responder(r_connection, b_connection):
+    """Responds to received message and broadcasts
+    it to all the connected clients."""
     responder = context.socket(zmq.REP)
     responder.bind(r_connection)
     broadcaster = context.socket(zmq.PUB)

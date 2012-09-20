@@ -12,11 +12,14 @@ context = zmq.Context()
 
 
 def input(msg):
+    """Non-blocking raw_input."""
+    sys.stdout.write("%s\n" % msg)
     select.select([sys.stdin], [], [])
     return sys.stdin.readline()
 
 
 def subscriber(connection):
+    """Receives messages and prints it."""
     socket = context.socket(zmq.SUB)
     socket.connect(connection)
     socket.setsockopt(zmq.SUBSCRIBE, '')
@@ -27,6 +30,7 @@ def subscriber(connection):
 
 
 def sender(connection, alias):
+    """Takes user input and sends message to server."""
     socket = context.socket(zmq.REQ)
     socket.connect(connection)
     while True:
