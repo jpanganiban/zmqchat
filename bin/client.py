@@ -14,7 +14,7 @@ context = zmq.Context()
 
 def input(msg):
     """Non-blocking raw_input."""
-    sys.stdout.write("%s\n" % msg)
+    sys.stdout.write("%s" % msg)
     select.select([sys.stdin], [], [])
     return sys.stdin.readline()
 
@@ -28,7 +28,7 @@ def subscriber(connection, sender_id):
         data = json.loads(socket.recv())
         # Only print if it's not yourself.
         if data['sender_id'] != sender_id:
-            print "%s: %s" % (data['alias'], data['message'])
+            sys.stdout.write("%s: %s" % (data['alias'], data['message']))
         gevent.sleep(0)
 
 
