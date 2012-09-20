@@ -8,9 +8,9 @@ ZeroMQ: http://www.zeromq.org/
 
 ##Requirements
 
-    python
-    libevent (and libevent-dev to compile gevent)
-    zeromq
+* python
+* libevent (and libevent-dev to compile gevent)
+* zeromq
 
 
 ##Installation
