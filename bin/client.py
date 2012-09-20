@@ -33,6 +33,7 @@ def sender(connection, alias):
         message = input("")
         socket.send(json.dumps({'alias': alias, 'message': message}))
         msg_in = socket.recv()
+        gevent.sleep(0)
 
 
 if __name__ == '__main__':
