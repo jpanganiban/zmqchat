@@ -6,6 +6,13 @@ A simple chat demonstration with ZeroMQ.
 ZeroMQ: http://www.zeromq.org/
 
 
+##Requirements
+
+    python
+    libevent (and libevent-dev to compile gevent)
+    zeromq
+
+
 ##Installation
 
     cd /path/to/zmqchat/bin
