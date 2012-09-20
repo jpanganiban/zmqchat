@@ -22,6 +22,7 @@ def responder(r_connection, b_connection):
         # Response request
         responder.send(msg)
 
+
 if __name__ == '__main__':
     port = raw_input("Enter your binding port: ")
     responder_connection = "tcp://0.0.0.0:%s" % (port)

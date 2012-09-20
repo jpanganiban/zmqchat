@@ -22,7 +22,7 @@ ZeroMQ: http://www.zeromq.org/
 ##Server
 
     cd /path/to/zmqchat/bin
-    ./server
+    ./zmqchat-server.py
     Enter your binding port: <enter a port>
     Server now runs responder at <selected port> and broadcaster at <selected port + 1>
 
@@ -30,7 +30,7 @@ ZeroMQ: http://www.zeromq.org/
 ##Client
 
     cd /path/to/zmqchat/bin
-    ./client
+    ./zmqchat-client.ph
     Enter your chat server port: <enter a port>
     Enter your chat alias: <enter your alias>
     # Now start chatting
